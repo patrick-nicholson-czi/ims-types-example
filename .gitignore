@@ -1,5 +1,5 @@
 .idea/
 .gradle/
 **/.DS_Store
-lti/docs/
-assignment-and-grade-services/docs/
+lti/doc/
+assignment-and-grade-services/doc/
