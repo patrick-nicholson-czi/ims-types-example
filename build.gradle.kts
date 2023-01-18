@@ -100,7 +100,7 @@ val generators = listOf(
 )
 
 val generatorOptions = mapOf(
-    "graphql-schema" to mapOf("packageName" to "graphql-ims"),
+//    "graphql-schema" to mapOf("packageName" to "graphql-ims"),
     "kotlin" to mapOf("library" to "multiplatform"),
 )
 
