@@ -1,8 +1,0 @@
-openapi2graphql/model/context_claim_type.graphql
-openapi2graphql/model/context_claim_type_type_inner.graphql
-openapi2graphql/model/deep_linking_settings_type.graphql
-openapi2graphql/model/launch_presentation_claim_type.graphql
-openapi2graphql/model/lti_security_framework_jwt_type.graphql
-openapi2graphql/model/ltijwt_message_core_type.graphql
-openapi2graphql/model/ltijwt_message_core_type_all_of.graphql
-openapi2graphql/model/tool_platform_claim_type.graphql

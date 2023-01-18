@@ -1,0 +1,5 @@
+.idea/
+.gradle/
+**/.DS_Store
+lti/docs/
+assignment-and-grade-services/docs/

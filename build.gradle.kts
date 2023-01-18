@@ -97,11 +97,11 @@ val generators = listOf(
     "kotlin",
     "python-fastapi",
     "typescript",
-    "openapi"
 )
 
 val generatorOptions = mapOf(
-    "kotlin" to mapOf("library" to "multiplatform")
+    "graphql-schema" to mapOf("packageName" to "graphql-ims"),
+    "kotlin" to mapOf("library" to "multiplatform"),
 )
 
 data class SpecOption(
@@ -118,11 +118,18 @@ val specOptions = listOf(
 
 for (opt in specOptions) {
 
+    /**
+     * Swagger UI task to generate /doc
+     */
     val swaggerUiTaskName = "${opt.task}_subtask_swagger_ui"
     tasks.register<GenerateSwaggerUI>(swaggerUiTaskName) {
         dependsOn(opt.lastUpstreamTask)
         inputFile = file(opt.location)
         outputDir = file("${opt.parent}/doc")
+    }
+
+    tasks.getByName(opt.task) {
+        dependsOn(swaggerUiTaskName)
     }
 
     /**
@@ -132,6 +139,11 @@ for (opt in specOptions) {
         continue
     }
 
+    /**
+     * Single validation subtask
+     *
+     * Note: Fails for AGS
+     */
     val validateTaskName = "${opt.task}_subtask_validate"
     tasks.register<ValidateTask>(validateTaskName) {
         dependsOn(opt.lastUpstreamTask)
@@ -139,6 +151,9 @@ for (opt in specOptions) {
         recommend.set(false)
     }
 
+    /**
+     * Subtasks for each generator
+     */
     for (generator in generators) {
         val generateTaskName = "${opt.task}_subtask_${generator}"
         tasks.register<GenerateTask>(generateTaskName) {
@@ -159,23 +174,12 @@ for (opt in specOptions) {
 
 
 /**
- * Swagger UIs for the specifications
+ * Combined `generate` task
  */
-
-val ltiSwaggerUi = "ltiSwaggerUi"
-val agsSwaggerUi = "agsSwaggerUi"
-
-tasks.register<GenerateSwaggerUI>(ltiSwaggerUi) {
-    inputFile = file(ltiOpenApiPath)
-    outputDir = file("$ltiDirectory/doc")
-}
-
 tasks.register("generate") {
     dependsOn(generateLti)
     dependsOn(generateAgs)
-    dependsOn(ltiSwaggerUi)
 }
-
 
 
 /**
